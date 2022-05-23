@@ -18,13 +18,10 @@ const wineSchema = new mongoose.Schema(
             max: 5,
             required: true
         },
-        type: {
+        varietal: {
             lowercase: true,
             required: true,
             enum: ['Red - Cabernet Sauvignon', 'Red - Pinot Noir', 'Red - Merlot', 'Red - Malbec', 'Red- Zinfandel', 'Red - Bordeaux', 'Red - Rioja', 'Red - Syrah', 'Red - Tempranillo', 'White - Chardonnay', 'White - Sauvignon Blanc', 'White - Pinot Gris', 'White - Pinot Grigio', 'White - Riesling', 'White - Gewurtztraimer', 'White - Chenin Blanc', 'Rosé', 'Dessert - Port', 'Dessert - Sauternes','Dessert - Icewine','Dessert - Sherry', 'Sparkling - Champagne', 'Sparkling - Traditional', 'Sparkling - Moscato', 'Sparkling - Prosecco', 'Sparkling - Cava', 'Sparkling - Cremant'],
-        },
-        varietal: {
-            type: String
         },
         vineyard: {
             type: String
@@ -38,13 +35,33 @@ const wineSchema = new mongoose.Schema(
         image: {
             type: Buffer,
         },
-        review: {
+       notes: {
             type: String,
         },
         likes: {
             type: Number,
             default: 0
-        } 
+        },
+        location: {
+            type: String,
+            required: true            
+        },
+        who_with: {
+            type: String,
+            required: true,
+        },
+        occasion: {
+            type: String,
+            required: true,
+        },
+        when:{
+            type: Date,
+            required: true
+        },
+        reminder:{
+            type: String,
+            required: true
+        },
     },
     {
         timestamps: true
