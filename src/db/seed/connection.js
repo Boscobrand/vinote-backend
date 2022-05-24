@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose.Promise = Promise;
 
-const mongoURI = "mongodb://localhost/vinote-api";
+const mongoURI = "mongodb://localhost/user-api";
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true },{ useUnifiedTopology: true })
