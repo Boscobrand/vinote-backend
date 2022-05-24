@@ -1,18 +1,15 @@
 const express = require("express");
-const res = require("express/lib/response");
 const sharp = require('sharp')
 
 const router = express.Router();
 const winesController = require("../controllers/wines");
 const Wine = require("../models/Wine");
-
-
-router.get("/", winesController.index);
+router.use("/api/wines", require ("../models/Wine.js"));
 
 
 //POST
 
-router.post('api/wines/', auth, async (req,res) => {
+router.post('/', auth, async (req, res, next) => {
     const wine = new Wine({ ...req.body, owner: req.user._id});
     try {
         await wine.save();
@@ -26,7 +23,7 @@ router.post('api/wines/', auth, async (req,res) => {
 //POST image
 
 router.post(
-    'api/wines/:id/image', auth, async (req,res) => {
+    'api/wines/:id/image', auth, async (req, res, next) => {
         const _id = req.params._id;
         try{
             const wine = await Wine.findOne({_id, owner: req.user._id});
@@ -57,7 +54,7 @@ router.post(
 
 //GET all wine (READ ONLY)
 
-router.get('/api/wines/all', async (req, res) => {
+router.get('/api/wines/all', async (req, res, next) => {
     const sortOptions = {};
     if (req.query.sortBy) {
         const [field,direction] = req.query.sortBy.split(':');
@@ -88,7 +85,7 @@ router.get('/api/wines/all', async (req, res) => {
 
 //GET  active user wine only
 
-router.get('/api/wines/user'), auth, async (req,res) => {
+router.get('/api/wines/user'), auth, async (req, res, next) => {
     const sortOptions = {};
     if (req.query.sortBy) {
         const [field, direction] = req.query.sortBy.split(':');
@@ -117,7 +114,7 @@ router.get('/api/wines/user'), auth, async (req,res) => {
 
 //GET all wines liked by an active user
 
-router.get('/api/wines/'), auth, async (req,res) => {
+router.get('/api/wines/'), auth, async (req,res, next) => {
     const sortOptions = {};
     if (req.query.sortby) {
         const [field, direction] = req.query.sortBy.split(':');
@@ -152,7 +149,7 @@ router.get('/api/wines/'), auth, async (req,res) => {
     // GET /api/wines/:id
 //
 // Read details for one wine
-router.get('/api/wines/:id', auth, async (req, res) => {
+router.get('/api/wines/:id', auth, async (req, res, next) => {
     const _id = req.params.id;
     try {
       // Ensure this wine's owner is the authenticated user
@@ -170,7 +167,7 @@ router.get('/api/wines/:id', auth, async (req, res) => {
   
   // GET wine image
 
-  router.get('/api/wines/:id/image', async (req, res) => {
+  router.get('/api/wines/:id/image', async (req, res, next) => {
     try {
       const wine = await Wine.findById(req.params.id);
       if (!wine || !wine.image) {
@@ -185,7 +182,7 @@ router.get('/api/wines/:id', auth, async (req, res) => {
   
   // UPDATE:
 
-  router.patch('/api/wines/:id', auth, async (req, res) => {
+  router.put('/api/wines/:id', auth, async (req, res, next) => {
     const _id = req.params.id;
     try {
       const wine = await Wine.findOne({ _id, owner: req.user._id });
@@ -202,7 +199,7 @@ router.get('/api/wines/:id', auth, async (req, res) => {
   
   // DELETE wine 
 
-  router.delete('/api/wines/:id', auth, async (req, res) => {
+  router.delete('/api/wines/:id', auth, async (req, res, next) => {
     try {
       // Locate wine by its id and owner id
       const wine = await Wine.findOneAndDelete({
@@ -223,4 +220,4 @@ router.get('/api/wines/:id', auth, async (req, res) => {
 
 
 
-module.exports = router;
+module.exports = wineRoute;

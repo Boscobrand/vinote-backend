@@ -2,7 +2,25 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/users");
 
-router.get("/", usersController.index);
+const Wine = require("../models/User");
+router.use("/api/User", require ("../models/User.js"));
 
-module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = userRoute;
 
